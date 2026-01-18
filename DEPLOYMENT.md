@@ -77,8 +77,17 @@ const res = await fetch(`${BACKEND_URL}/api/chat", {
 6. Build Command: Leave empty (static site)
 7. Output Directory: `frontend`
 8. Environment Variables:
-   - `BACKEND_URL`: Your Railway/Render URL
+   - Key: `BACKEND_URL`
+   - Value: (akan diupdate setelah deploy backend)
+   - Example: `https://your-railway-app.railway.app` atau `https://your-app.onrender.com`
 9. Click "Deploy"
+
+### After Backend Deployment
+
+Setelah backend selesai di-deploy:
+1. Kembali ke Vercel → Project Settings → Environment Variables
+2. Update `BACKEND_URL` dengan URL backend yang sudah di-deploy
+3. Redeploy frontend untuk apply perubahan
 
 ---
 
