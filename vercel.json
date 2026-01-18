@@ -1,0 +1,8 @@
+{
+  "buildCommand": "echo 'Frontend deployment'",
+  "outputDirectory": "frontend",
+  "framework": "html",
+  "env": {
+    "BACKEND_URL": "@backend_url"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "name": "scorpio-ai",
+  "version": "1.0.0",
+  "description": "Scorpio AI - Full-stack Generative AI Chat Application",
+  "private": true,
+  "scripts": {
+    "install-all": "cd backend && npm install",
+    "dev:backend": "cd backend && npm run dev",
+    "start:backend": "cd backend && npm start"
+  },
+  "keywords": [
+    "ai",
+    "chat",
+    "generative",
+    "gemini",
+    "vercel"
+  ],
+  "author": "",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  }
+}

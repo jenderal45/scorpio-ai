@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scorpio AI – Generative Intelligence</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+body {
+  background: radial-gradient(circle at top, #0f172a, #020617);
+  color: #e5e7eb;
+  min-height: 100vh;
+}
+
+/* HEADER */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 8%;
+}
+
+.logo {
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #38bdf8;
+}
+
+nav a {
+  margin-left: 25px;
+  text-decoration: none;
+  color: #cbd5f5;
+  font-size: 0.95rem;
+}
+
+nav a:hover {
+  color: #38bdf8;
+}
+
+/* HERO */
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 80px 8% 60px;
+}
+
+.hero h1 {
+  font-size: 3rem;
+  background: linear-gradient(90deg, #38bdf8, #818cf8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero p {
+  margin-top: 15px;
+  max-width: 600px;
+  color: #94a3b8;
+  line-height: 1.6;
+}
+
+.hero button {
+  margin-top: 30px;
+  padding: 14px 36px;
+  background: linear-gradient(90deg, #38bdf8, #6366f1);
+  border: none;
+  border-radius: 999px;
+  color: #020617;
+  font-size: 1rem;
+  cursor: pointer;
+  font-weight: 600;
+  box-shadow: 0 0 25px rgba(56,189,248,0.4);
+}
+
+.hero button:hover {
+  opacity: 0.9;
+}
+
+/* CHAT AI */
+.chat-container {
+  max-width: 900px;
+  margin: 0 auto 80px;
+  padding: 0 6%;
+}
+
+.chat-box {
+  background: rgba(15, 23, 42, 0.7);
+  border-radius: 16px;
+  padding: 25px;
+  height: 380px;
+  overflow-y: auto;
+  border: 1px solid rgba(148,163,184,0.15);
+}
+
+.message {
+  margin-bottom: 18px;
+  line-height: 1.5;
+}
+
+.user {
+  color: #38bdf8;
+}
+
+.ai {
+  color: #e5e7eb;
+}
+
+.input-area {
+  margin-top: 15px;
+  display: flex;
+  gap: 10px;
+}
+
+.input-area input {
+  flex: 1;
+  padding: 14px;
+  border-radius: 12px;
+  border: none;
+  outline: none;
+  background: #020617;
+  color: #e5e7eb;
+  border: 1px solid rgba(148,163,184,0.2);
+}
+
+.input-area button {
+  padding: 14px 22px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  background: linear-gradient(90deg, #38bdf8, #6366f1);
+  color: #020617;
+  font-weight: 600;
+}
+
+/* FOOTER */
+footer {
+  text-align: center;
+  padding: 30px;
+  font-size: 0.85rem;
+  color: #64748b;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .hero h1 {
+    font-size: 2.2rem;
+  }
+  nav {
+    display: none;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">SCORPIO AI</div>
+  <nav>
+    <a href="#">Home</a>
+    <a href="#">Features</a>
+    <a href="#">Technology</a>
+    <a href="#">Login</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <h1>Generative Intelligence</h1>
+  <p>
+    Scorpio AI adalah Artificial Intelligence generatif yang dirancang untuk berpikir,
+    mencipta, dan berevolusi bersama Anda.
+  </p>
+  <button onclick="scrollToChat()">Try Scorpio AI</button>
+</section>
+
+<section class="chat-container" id="chat">
+  <div class="chat-box" id="chatBox">
+    <div class="message ai">👋 Halo! Saya Scorpio AI. Ada yang bisa saya bantu hari ini?</div>
+  </div>
+
+  <div class="input-area">
+    <input type="text" id="userInput" placeholder="Tanyakan apa saja pada Scorpio AI...">
+    <button onclick="sendMessage()">Send</button>
+  </div>
+</section>
+
+<footer>
+  © 2026 Scorpio AI • Generative AI Platform
+</footer>
+
+<script>
+let sessionId = localStorage.getItem("scorpio_session");
+const BACKEND_URL = localStorage.getItem("backendUrl") || "/api/chat";
+
+function scrollToChat() {
+  document.getElementById("chat").scrollIntoView({ behavior: "smooth" });
+}
+
+async function sendMessage() {
+  const input = document.getElementById("userInput");
+  const chatBox = document.getElementById("chatBox");
+  const text = input.value.trim();
+  
+  if (!text) return;
+
+  const userMsg = document.createElement("div");
+  userMsg.className = "message user";
+  userMsg.textContent = "You: " + text;
+  chatBox.appendChild(userMsg);
+
+  input.value = "";
+  chatBox.scrollTop = chatBox.scrollHeight;
+
+  const loading = document.createElement("div");
+  loading.className = "message ai";
+  loading.textContent = "Scorpio AI is thinking...";
+  chatBox.appendChild(loading);
+
+  try {
+    const endpoint = BACKEND_URL.includes("/api/chat") ? BACKEND_URL : `${BACKEND_URL}/api/chat`;
+    const res = await fetch(endpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message: text, sessionId })
+    });
+
+    const data = await res.json();
+    loading.textContent = "Scorpio AI: " + data.reply;
+
+    sessionId = data.sessionId;
+    localStorage.setItem("scorpio_session", sessionId);
+  } catch (error) {
+    loading.textContent = "Scorpio AI: Error - " + error.message;
+  }
+
+  chatBox.scrollTop = chatBox.scrollHeight;
+}
+</script>
+
+</body>
+</html>
