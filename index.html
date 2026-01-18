@@ -224,6 +224,34 @@ function sendMessage() {
     chatBox.appendChild(aiMsg);
     chatBox.scrollTop = chatBox.scrollHeight;
   }, 600);
+
+let sessionId = localStorage.getItem("scorpio_session");
+
+async function sendMessage() {
+  const input = document.getElementById("userInput");
+  const chatBox = document.getElementById("chatBox");
+  const text = input.value.trim();
+  if (!text) return;
+
+  chatBox.innerHTML += `<div class="message user">You: ${text}</div>`;
+  input.value = "";
+
+  const loading = document.createElement("div");
+  loading.className = "message ai";
+  loading.textContent = "Scorpio AI is thinking...";
+  chatBox.appendChild(loading);
+
+  const res = await fetch("/api/chat", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ message: text, sessionId })
+  });
+
+  const data = await res.json();
+  loading.textContent = "Scorpio AI: " + data.reply;
+
+  sessionId = data.sessionId;
+  localStorage.setItem("scorpio_session", sessionId);
 }
 </script>
 
