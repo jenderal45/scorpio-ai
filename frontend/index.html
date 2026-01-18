@@ -199,7 +199,14 @@ footer {
 
 <script>
 let sessionId = localStorage.getItem("scorpio_session");
-const BACKEND_URL = localStorage.getItem("backendUrl") || "/api/chat";
+
+// Get backend URL from multiple sources (in order of preference)
+const BACKEND_URL = 
+  window.location.hostname === 'localhost' 
+    ? 'http://localhost:3000' 
+    : localStorage.getItem("backendUrl") || 
+      (window.__BACKEND_URL__) ||
+      '/api/chat';
 
 function scrollToChat() {
   document.getElementById("chat").scrollIntoView({ behavior: "smooth" });
