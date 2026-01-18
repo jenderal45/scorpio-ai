@@ -3,9 +3,3 @@
   "builds": [{ "src": "server.js", "use": "@vercel/node" }],
   "routes": [{ "src": "/api/(.*)", "dest": "server.js" }]
 }
-
-npm install -g vercel
-vercel login
-vercel deploy
-
-GEMINI_API_KEY
